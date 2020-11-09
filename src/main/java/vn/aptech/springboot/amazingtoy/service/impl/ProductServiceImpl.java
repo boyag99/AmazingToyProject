@@ -7,6 +7,7 @@ import vn.aptech.springboot.amazingtoy.repository.product.ProductRepository;
 import vn.aptech.springboot.amazingtoy.service.ProductService;
 import vn.aptech.springboot.amazingtoy.util.RandomStringUtil;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,6 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepository;
-
 
     @Override
     public List<Product> findAllPro() {
@@ -37,6 +37,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public void update(Product pro) {
         productRepository.save(pro);
     }

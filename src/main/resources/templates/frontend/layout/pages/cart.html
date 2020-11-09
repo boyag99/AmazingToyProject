@@ -26,7 +26,7 @@
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
                         <!-- Form Start -->
-                        <form action="#">
+                        <form th:action="@{/cart/update}" method="post">
                             <!-- Table Content Start -->
                             <div class="table-content table-responsive mb-45">
                                 <table>
@@ -41,15 +41,15 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="item : ${listCart}">
+                                    <tr th:each="map : ${session.myCartItems}">
                                         <td class="product-thumbnail">
-                                            <a href="#"><img th:each="image: ${item.photo}" th:if="${image.mainImage}==true" th:src="@{'/backend/dist/img/products/' + ${image.name}}" alt="single-product"></a>
+                                            <a href="#"><img th:each="image: ${map.value.product.imagesCollection}" th:if="${image.mainImage==true}" th:src="@{'/backend/dist/img/products/' + ${image.name}}" alt="cart-image"></a>
                                         </td>
-                                        <td class="product-name"><a href="#">[[${item.name}]]</a></td>
-                                        <td class="product-price"><span class="amount">[[${item.price}]]</span></td>
-                                        <td class="product-quantity"><input type="number" th:value="${item.quantity}"></td>
-                                        <td class="product-subtotal">[[${item.price} * ${item.quantity}]]</td>
-                                        <td class="product-remove"> <a th:href="@{/shop/cart/remove?id={id}(id = ${item.id})}"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                                        <td class="product-name"><a href="#" th:text="${map.value.product.productName}"></a></td>
+                                        <td class="product-price"><span class="amount" th:text="${map.value.product.savePrice}"></span></td>
+                                        <td class="product-quantity"><input type="number" th:name="quantity" th:value="${map.value.quantity}"></td>
+                                        <td class="product-subtotal" th:text="${map.value.product.savePrice} * ${map.value.quantity}"></td>
+                                        <td class="product-remove"> <a th:href="@{'/cart/remove/'+${map.value.product.id}}"><i class="fa fa-times" aria-hidden="true"></i></a></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -59,8 +59,8 @@
                                 <!-- Cart Button Start -->
                                 <div class="col-md-8 col-sm-12">
                                     <div class="buttons-cart">
-                                        <a href="#">Update Cart</a>
-                                        <a href="#">Continue Shopping</a>
+                                        <input type="submit" value="Update"/>
+                                        <a th:href="@{/shop}">Continue Shopping</a>
                                     </div>
                                 </div>
                                 <!-- Cart Button Start -->
@@ -71,14 +71,10 @@
                                         <br>
                                         <table class="float-md-right">
                                             <tbody>
-                                            <tr class="cart-subtotal">
-                                                <th>Subtotal</th>
-                                                <td><span class="amount">$215.00</span></td>
-                                            </tr>
                                             <tr class="order-total">
                                                 <th>Total</th>
                                                 <td>
-                                                    <strong><span class="amount">$215.00</span></strong>
+                                                    <strong><span class="amount" th:text="${session.myCartTotal}"></span></strong>
                                                 </td>
                                             </tr>
                                             </tbody>

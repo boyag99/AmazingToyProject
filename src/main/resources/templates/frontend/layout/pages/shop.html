@@ -454,13 +454,13 @@
                                             <!-- Product Content Start -->
                                             <div class="pro-content">
                                                 <div class="pro-info">
-                                                    <h4><a href="shop.html" th:text="${product.name}"></a></h4>
-                                                    <p><span class="price" th:text="${product.salePrice}"></span><del class="prev-price" th:text="${product.unitPrice}"></del></p>
+                                                    <h4><a href="shop.html" th:text="${product.productName}"></a></h4>
+                                                    <p><span class="price" th:text="${product.savePrice}"></span><del class="prev-price" th:text="${product.unitPrice}"></del></p>
                                                     <div class="label-product l_sale">30<span class="symbol-percent">%</span></div>
                                                 </div>
                                                 <div class="pro-actions">
                                                     <div class="actions-primary">
-                                                        <a th:href="@{/shop/cart/add?id={id}(id=${product.id})}" title="Add to Cart"> + Add To Cart</a>
+                                                        <a th:href="@{'/cart/add/'+${product.id}}" title="Add to Cart"> + Add To Cart</a>
                                                     </div>
                                                     <div class="actions-secondary">
                                                         <a href="compare.html" title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>
