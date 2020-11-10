@@ -12,9 +12,10 @@
         <div class="container">
             <div class="breadcrumb">
                 <ul class="d-flex align-items-center">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="shop.html">Shop</a></li>
-                    <li class="active"><a href="product.html">Products</a></li>
+                    <li><a th:href="@{/}">Home</a></li>
+                    <li><a th:href="@{'/collection/' + ${productDetail.getSubcategory().getCategory().getSlug()}}"><span th:utext="${productDetail.getSubcategory().getCategory().getName()}"></span></a></li>
+                    <li><a th:href="@{'/collection/' + ${productDetail.getSubcategory().getCategory().getSlug() + '/' + productDetail.getSubcategory().getSlug()}}"><span th:utext="${productDetail.getSubcategory().getSubName()}"></span></a></li>
+                    <li class="active"><a href="#"><span th:utext="${productDetail.getProductName()}"></span></a></li>
                 </ul>
             </div>
         </div>
@@ -71,7 +72,7 @@
                                 </form>
                                 <div class="pro-actions">
                                     <div class="actions-primary">
-                                        <a href="cart.html" title="" data-original-title="Add to Cart"> + Add To Cart</a>
+                                        <a th:href="@{'/cart/add/' + ${productDetail.getId()}}" title="" data-original-title="Add to Cart"> + Add To Cart</a>
                                     </div>
                                     <div class="actions-secondary">
                                         <a href="compare.html" title="" data-original-title="Compare"><i class="lnr lnr-sync"></i> <span>Add To Compare</span></a>

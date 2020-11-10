@@ -1,6 +1,7 @@
 package vn.aptech.springboot.amazingtoy.controller.v1.ui.backend;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -12,6 +13,7 @@ import vn.aptech.springboot.amazingtoy.model.category.Category;
 import vn.aptech.springboot.amazingtoy.service.CategoryService;
 import vn.aptech.springboot.amazingtoy.util.RandomStringUtil;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -21,6 +23,7 @@ import java.nio.file.StandardCopyOption;
 
 @Controller
 @RequestMapping(value = "admin/category")
+@PreAuthorize("hasAnyAuthority('ADMIN', 'STAFF')")
 public class CategoryController {
 
     @Autowired
@@ -57,11 +60,19 @@ public class CategoryController {
 
     //cua thang em lao
         @RequestMapping(value= "/create", method = RequestMethod.POST)
-    public String create(Model model,
+    public String create(@Valid Category model,
                              @ModelAttribute("category") Category cat,
-                             BindingResult result) {
+                             BindingResult result,
+                             RedirectAttributes redirectAttributes) {
         String uniqueSlug = RandomStringUtil.makeSlug(cat.getName());
         if (!categoryService.checkSlugExists(uniqueSlug)) {
+
+            if (result.hasErrors()) {
+                return "backend/layout/pages/category/create";
+            }
+
+            redirectAttributes.addAttribute("name", model.getName());
+            redirectAttributes.addAttribute("slug", model.getSlug());
             cat.setSlug(uniqueSlug);
             Category saveCate = categoryService.create(cat);
         }
