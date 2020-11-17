@@ -12,8 +12,8 @@
             <div class="container">
                 <div class="breadcrumb">
                     <ul class="d-flex align-items-center">
-                        <li><a href="index.html">Home</a></li>
-                        <li class="active"><a href="cart.html">Cart</a></li>
+                        <li><a th:href="@{/}">Home</a></li>
+                        <li class="active"><a th:href="@{/cart}">Cart</a></li>
                     </ul>
                 </div>
             </div>
@@ -24,13 +24,14 @@
         <div class="cart-main-area ptb-100 ptb-sm-60">
             <div class="container">
                 <!-- Row start-->
+                <p th:if="${outofstock != null}"><span class="out-stock" ><i class="fa fa-times"></i> <th:block th:utext="${outofstock}"></th:block></span></p>
                 <div class="row" th:if="${session.gioHang != null}">
                     <div class="col-md-12 col-sm-12">
                             <!-- Table Content Start -->
                             <div class="table-content table-responsive mb-45">
                                 <table>
                                     <thead>
-                                    <tr>
+                                    <tr style="background: black; color: white;">
                                         <th class="product-thumbnail">Image</th>
                                         <th class="product-name">Product</th>
                                         <th class="product-price">Price</th>
@@ -50,7 +51,7 @@
                                             <form th:action="@{/cart/update}" method="post">
                                                 <input type="hidden" th:value="${map.product.id}" name="id">
                                                 <input type="number" min="1" th:value="${map.quantity}" name="qty">
-                                                <button type="submit">Update</button>
+                                                <button class="btn btn-primary" type="submit">Update</button>
                                             </form>
                                         </td>
                                         <td class="product-subtotal" th:text="${map.subTotal}"></td>
@@ -113,5 +114,13 @@
         </div>
         <!-- Cart Main Area End -->
     </div>
+<script layout:fragment="scripts">
+    $(document).ready(function(){
+        $('.qty').on('change keyup', function() {
+            console.log('nice');
+        });
+    });
+</script>
+
 </body>
 </html>
